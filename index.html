@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost C2 - Ultimate Botnet Control</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(45deg, #0a0a0a, #1a1a2e, #16213e);
+            font-family: 'Orbitron', monospace;
+            color: #00ff88;
+            overflow-x: hidden;
+            animation: bgPulse 4s ease-in-out infinite alternate;
+        }
+        @keyframes bgPulse {
+            0% { background: linear-gradient(45deg, #0a0a0a, #1a1a2e, #16213e); }
+            100% { background: linear-gradient(45deg, #0a0a0a, #0f3460, #16213e); }
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 50px 0;
+            position: relative;
+        }
+        h1 {
+            font-size: 4em;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 10px;
+            margin: 0;
+            animation: glow 2s ease-in-out infinite alternate;
+            text-shadow: 0 0 20px #00ff88;
+        }
+        @keyframes glow {
+            from { text-shadow: 0 0 20px #00ff88, 0 0 30px #00ff88, 0 0 40px #00ff88; }
+            to { text-shadow: 0 0 10px #00ff88, 0 0 20px #00ff88, 0 0 30px #00ff88; }
+        }
+        .subtitle {
+            font-size: 1.2em;
+            margin-top: 10px;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.5s forwards;
+        }
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .discord-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #7289da, #99aab5);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .discord-link:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px #7289da;
+        }
+        section {
+            margin: 60px 0;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: slideInUp 1s ease-out forwards;
+        }
+        section:nth-child(odd) { animation-delay: 0.2s; }
+        section:nth-child(even) { animation-delay: 0.4s; }
+        @keyframes slideInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h2 {
+            font-size: 2.5em;
+            text-align: center;
+            margin-bottom: 40px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        .methods-grid, .packages-grid, .addons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .method-card, .package-card, .addon-card {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid #00ff88;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .method-card::before, .package-card::before, .addon-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 136, 0.2), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+        .method-card:hover::before, .package-card:hover::before, .addon-card:hover::before {
+            opacity: 1;
+            animation: shine 0.5s ease-in-out;
+        }
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        .method-card:hover, .package-card:hover, .addon-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+        }
+        .method-name, .package-name, .addon-name {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .price {
+            font-size: 1.5em;
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.5);
+            margin-top: 50px;
+            animation: fadeIn 2s ease-out 1s forwards;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #00ff88;
+            border-radius: 50%;
+            animation: float 6s linear infinite;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    <div class="container">
+        <header>
+            <h1>LOST C2</h1>
+            <p class="subtitle">Ultimate Botnet Domination</p>
+            <a href="https://discord.gg/ACXg3dngaC" class="discord-link" target="_blank">JOIN DISCORD</a>
+        </header>
+
+        <section>
+            <h2>LOST METHODS</h2>
+            <div class="methods-grid">
+                <div class="method-card"><div class="method-name">BROWSER</div></div>
+                <div class="method-card"><div class="method-name">HTTP</div></div>
+                <div class="method-card"><div class="method-name">CLOUDFLARE</div></div>
+                <div class="method-card"><div class="method-name">HTTPSBETA</div></div>
+                <div class="method-card"><div class="method-name">TLS L4</div></div>
+                <div class="method-card"><div class="method-name">UDPBOOM</div></div>
+                <div class="method-card"><div class="method-name">UDPOUT</div></div>
+                <div class="method-card"><div class="method-name">GAMEBOOM</div></div>
+                <div class="method-card"><div class="method-name">UDPBYASS</div></div>
+                <div class="method-card"><div class="method-name">TCPAMP</div></div>
+                <div class="method-card"><div class="method-name">TCPBYASS</div></div>
+                <div class="method-card"><div class="method-name">TCPKILL</div></div>
+                <div class="method-card"><div class="method-name">TCPBOOM</div></div>
+                <div class="method-card"><div class="method-name">TCPOT</div></div>
+                <div class="method-card"><div class="method-name">DNS</div></div>
+                <div class="method-card"><div class="method-name">COAP</div></div>
+                <div class="method-card"><div class="method-name">STUN</div></div>
+                <div class="method-card"><div class="method-name">MIXAMP</div></div>
+                <div class="method-card"><div class="method-name">HOMEHOLD</div></div>
+                <div class="method-card"><div class="method-name">RANDBOOM</div></div>
+                <div class="method-card"><div class="method-name">OVH</div></div>
+                <div class="method-card"><div class="method-name">OPENVPN</div></div>
+                <div class="method-card"><div class="method-name">RAKNET</div></div>
+                <div class="method-card"><div class="method-name">DISCORD</div></div>
+                <div class="method-card"><div class="method-name">FIVEM.SSH</div></div>
+                <div class="method-card"><div class="method-name">ICMP</div></div>
+                <div class="method-card"><div class="method-name">HOMESLAM</div></div>
+                <div class="method-card"><div class="method-name">UDP-LOST</div></div>
+                <div class="method-card"><div class="method-name">DNS-LOST</div></div>
+                <div class="method-card"><div class="method-name">TCP-LOST</div></div>
+                <div class="method-card"><div class="method-name">HTTP-LOST</div></div>
+                <div class="method-card"><div class="method-name">OVH-LOST</div></div>
+                <div class="method-card"><div class="method-name">BOTNET-SOCKET</div></div>
+            </div>
+        </section>
+
+        <section>
+            <h2>PRICES</h2>
+            <div class="packages-grid">
+                <div class="package-card">
+                    <div class="package-name">SLIVER</div>
+                    <div class="price">20$</div>
+                    <div>LIFE: 30$ | 100SEC | 40SEC COOLDOWN | 1 ATAKA</div>
+                </div>
+                <div class="package-card">
+                    <div class="package-name">GOLD</div>
+                    <div class="price">30$</div>
+                    <div>LIFE: 50$ | 160SEC | 25 COOLDOWN | 1 CON | ACCESS VIP METHODS | LOST METHODS</div>
+                </div>
+                <div class="package-card">
+                    <div class="package-name">DIAMOND</div>
+                    <div class="price">40$</div>
+                    <div>LIFE: 50 | 300S | 15S COOLDOWN | 2 ATAKI | ACCESS VIP AND LOST METHODS</div>
+                </div>
+                <div class="package-card">
+                    <div class="package-name">CHAMPION</div>
+                    <div class="price">60$</div>
+                    <div>LIFE: 70$ | 450SEC | 5 COOLDOWN | 3 ATAKI | SPAM BYPASS | ACCESS VIP AND LOST METHODS</div>
+                </div>
+                <div class="package-card">
+                    <div class="package-name">EXTREME</div>
+                    <div class="price">100$</div>
+                    <div>LIFE: 140$ | 1000S | 0 COOLDOWN | 4 ATAKI | SPAM BYPASS | ACCESS VIP AND STAR</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>ADDONS</h2>
+            <div class="addons-grid">
+                <div class="addon-card">
+                    <div class="addon-name">+100S BOOT TIME</div>
+                    <div class="price">10$</div>
+                </div>
+                <div class="addon-card">
+                    <div class="addon-name">+1 ATAKA</div>
+                    <div class="price">15$</div>
+                </div>
+                <div class="addon-card">
+                    <div class="addon-name">ACCESS TO VIP METHODS</div>
+                </div>
+                <div class="addon-card">
+                    <div class="addon-name">ACCESS TO API</div>
+                    <div class="price">50$</div>
+                </div>
+                <div class="addon-card">
+                    <div class="addon-name">ACCESS TO RAW METHODS</div>
+                    <div class="price">30$</div>
+                </div>
+                <div class="addon-card">
+                    <div class="addon-name">ACCESS TO LOST METHODS</div>
+                    <div class="price">20$</div>
+                </div>
+                <div class="addon-card">
+                    <div class="addon-name">SPAM BYPASS</div>
+                    <div class="price">50$</div>
+                </div>
+                <div class="addon-card">
+                    <div class="addon-name">POWERSAVING BYPASS TRUE</div>
+                    <div class="price">80$</div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 Lost C2. All Rights Reserved. Join the Chaos.</p>
+        </footer>
+    </div>
+
+    <script>
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    section.style.animationPlayState = 'running';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
